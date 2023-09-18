@@ -1,0 +1,219 @@
+BENCHMARK RESULT OF DATA C:/Users/hoang.nguyen2/Desktop/input data/i11/t11v16.txt
+NUMBER OF GA RUNS : 20
+TIME LIMIT EACH GA RUN : 1200
+
+PARETO FRONT OF GA RUN NUMBER : 1
+  toll km  	  max time  
+  21,000  	  72,000
+    25,000  	  71,000
+    26,000  	  67,000
+    38,000  	  56,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 29029.0
+
+PARETO FRONT OF GA RUN NUMBER : 2
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    27,000  	  89,000
+    36,000  	  87,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25713.0
+
+PARETO FRONT OF GA RUN NUMBER : 3
+  toll km  	  max time  
+  9,000  	  171,000
+    11,000  	  167,000
+    16,000  	  166,000
+    22,000  	  136,000
+    28,000  	  114,000
+    30,000  	  93,000
+    31,000  	  83,000
+    41,000  	  64,000
+    51,000  	  62,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 28756.0
+
+PARETO FRONT OF GA RUN NUMBER : 4
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    38,000  	  88,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 24699.0
+
+PARETO FRONT OF GA RUN NUMBER : 5
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    32,000  	  88,000
+    40,000  	  87,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25308.0
+
+PARETO FRONT OF GA RUN NUMBER : 6
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    20,000  	  91,000
+    27,000  	  89,000
+    32,000  	  88,000
+    36,000  	  87,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 26270.0
+
+PARETO FRONT OF GA RUN NUMBER : 7
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    27,000  	  101,000
+    37,000  	  100,000
+    41,000  	  95,000
+    57,000  	  94,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 24711.0
+
+PARETO FRONT OF GA RUN NUMBER : 8
+  toll km  	  max time  
+  24,000  	  93,000
+    26,000  	  81,000
+    33,000  	  73,000
+    43,000  	  47,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 29202.0
+
+PARETO FRONT OF GA RUN NUMBER : 9
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    27,000  	  90,000
+    31,000  	  89,000
+    50,000  	  88,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25574.0
+
+PARETO FRONT OF GA RUN NUMBER : 10
+  toll km  	  max time  
+  23,000  	  99,000
+    25,000  	  87,000
+    33,000  	  85,000
+    40,000  	  75,000
+    43,000  	  67,000
+    46,000  	  49,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 28960.0
+
+PARETO FRONT OF GA RUN NUMBER : 11
+  toll km  	  max time  
+  24,000  	  93,000
+    30,000  	  81,000
+    44,000  	  78,000
+    45,000  	  58,000
+    53,000  	  54,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 28193.0
+
+PARETO FRONT OF GA RUN NUMBER : 12
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    43,000  	  110,000
+    47,000  	  109,000
+    55,000  	  91,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 23727.0
+
+PARETO FRONT OF GA RUN NUMBER : 13
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    35,000  	  88,000
+    45,000  	  81,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25729.0
+
+PARETO FRONT OF GA RUN NUMBER : 14
+  toll km  	  max time  
+  25,000  	  87,000
+    28,000  	  71,000
+    33,000  	  60,000
+    36,000  	  43,000
+    41,000  	  42,000
+    46,000  	  41,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 30000.0
+
+PARETO FRONT OF GA RUN NUMBER : 15
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    22,000  	  88,000
+    34,000  	  87,000
+    36,000  	  86,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 26255.0
+
+PARETO FRONT OF GA RUN NUMBER : 16
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    21,000  	  101,000
+    37,000  	  89,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25765.0
+
+PARETO FRONT OF GA RUN NUMBER : 17
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    29,000  	  96,000
+    35,000  	  89,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25267.0
+
+PARETO FRONT OF GA RUN NUMBER : 18
+  toll km  	  max time  
+  9,000  	  167,000
+    16,000  	  166,000
+    24,000  	  103,000
+    27,000  	  99,000
+    32,000  	  86,000
+    34,000  	  72,000
+    39,000  	  69,000
+    55,000  	  65,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 28541.0
+
+PARETO FRONT OF GA RUN NUMBER : 19
+  toll km  	  max time  
+  9,000  	  171,000
+    16,000  	  170,000
+    32,000  	  88,000
+    37,000  	  87,000
+    46,000  	  86,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 25422.0
+
+PARETO FRONT OF GA RUN NUMBER : 20
+  toll km  	  max time  
+  9,000  	  167,000
+    16,000  	  165,000
+    20,000  	  164,000
+    24,000  	  87,000
+    26,000  	  70,000
+    36,000  	  68,000
+    43,000  	  67,000
+  
+HYPERVOLUME WITH REFERENCE POINT ( toll km: 157.0 max time: 271.0 ) IS : 28635.0
+
+BEST GA RUN IS RUN NUMBER : 14
+
+PARETO FRONT OF MILP
+TIME LIMIT OF MILP : 7200
+  toll km  	  max time  
+  7,000  	  130,999
+  
+REFERENCE POINT TAKEN TO COMPARE RESULTS FROM BEST GA RUN AND MILP : ( toll km: 146.0 max time: 230.9993099999847 )
+HYPERVOLUME OF MILP : 13900.0
+HYPERVOLUME OF BEST GA RUN : 22629.916509998147
+% HYPERVOLUME OF BEST GA RUN OVER MILP : 162.8051547481881
