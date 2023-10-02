@@ -8,20 +8,49 @@ import Service.HelperService;
 
 import java.util.*;
 
-
+/**
+ * Class to perform the GA
+ */
 public class GeneticAlgorithm {
-
+    /**
+     * helper service to do small tasks
+     */
     private final HelperService helperService = new HelperService();
+    /**
+     * the genetic service to perform main task of genetic algorithm
+     */
     private GeneticService geneticService = new GeneticService();
 
     public GeneticAlgorithm() {
     }
 
+    /**
+     * Method to solve the pick up and delivery problem with GA
+     * @param distanceMatrix the distance matrix
+     * @param mautKmMatrix the maut price matrix
+     * @param vehiclesArray the array contains vehicles information
+     * @param transportsArray the array contains requests information
+     * @param timeLimit time limit of each GA run
+     * @param runNumber index of this GA run
+     * @param option option of mutation, only to test, not important
+     * @return the Pareto front
+     */
     public ArrayList<ObjectivesPoint> solve(int[][] distanceMatrix, int[][] mautKmMatrix, Vehicle[] vehiclesArray, Transport[] transportsArray, int timeLimit, int runNumber, int option) {
         geneticService.setParameters(distanceMatrix,mautKmMatrix,vehiclesArray,transportsArray);
         return geneticAlgorithm(100,200,0.5,0.5, timeLimit, runNumber,option);
     }
 
+    /**
+     * MEthod to perform the GA
+     * @param initPopSize initial population size, is set to be 100
+     * @param generation number of generations , set to be 50
+     * @param initialCrossoverRate cross over rate, set to be 0.5
+     * @param initialMutationRate mutation rate, set to be 0.5
+     * @param timeLimit time limit of GA
+     * @param runNumber index of this GA run
+     * @param option not important, only for testing
+     * @return the Pareto Front
+     */
     public ArrayList<ObjectivesPoint> geneticAlgorithm (int initPopSize, int generation, double initialCrossoverRate, double initialMutationRate, int timeLimit, int runNumber, int option) {
         int initTimeLimit = timeLimit;
         int startTime = (int) (System.currentTimeMillis() / 1000);
@@ -72,6 +101,13 @@ public class GeneticAlgorithm {
         return paretoFront;
     }
 
+    /**
+     * Method to perform crossover
+     * @param poolList the list to save individuals after performed crossover
+     * @param selectedParents the selected parents for crossover
+     * @param initPopSize size of individuals to be resulting from this crossover (size of pool list)
+     * @param crossoverRate crossover rate
+     */
     private void doCrossOver( ArrayList<Chromosome> poolList, ArrayList<Chromosome> selectedParents, int initPopSize, double crossoverRate) {
         int numOfChildsFromCrossOver = (int) (initPopSize * crossoverRate);
         ArrayList<Chromosome> childsList1 = crossOverStrategy1(selectedParents, numOfChildsFromCrossOver);
@@ -83,6 +119,12 @@ public class GeneticAlgorithm {
         poolList.addAll(childsList1);
     }
 
+    /**
+     * Method to do survival selection according to NSGAII (non dominance sort -> crowding distance)
+     * @param population the population to perform selection
+     * @param popSize the number of individuals to be selected from population as survivors
+     * @return the survived individuals as pareto fronts. each point in pareto front is a object represents an individual. This object contains key of individual and its fitness value
+     */
     public ArrayList<ArrayList<ChromosomeKeyObjectiveValue>> doSurvivalSelectionNSGAII(ArrayList<Chromosome> population, int popSize) {
         ArrayList<ChromosomeKeyObjectiveValue> chromosomeKeyObjectiveValues = new ArrayList<>();
         int selectNumber = popSize;
@@ -124,6 +166,12 @@ public class GeneticAlgorithm {
         return fronts;
     }
 
+    /**
+     * Method to reset key of individuals in pareto front after removed dead individuals
+     * @param population the population
+     * @param deletedIndices the deleted keys ( of not survived individuals)
+     * @param fronts the pareto front after reseting the keys
+     */
     private static void resetingKeysInFronts(ArrayList<Chromosome> population, ArrayList<Integer> deletedIndices, ArrayList<ArrayList<ChromosomeKeyObjectiveValue>> fronts) {
         Collections.sort(deletedIndices);
 
@@ -150,6 +198,13 @@ public class GeneticAlgorithm {
         }
     }
 
+    /**
+     * Method to perfrom crossover selection as in NSGA (random -> compare pareto front levels and crowding distance)
+     * @param population the population
+     * @param fronts the list of pareto fronts
+     * @param crossOverPoolSize the number of parents to be selected
+     * @return selected individuals for crossover
+     */
     public ArrayList<Chromosome> doCrossOverSelectionNSGAII(ArrayList<Chromosome> population, ArrayList<ArrayList<ChromosomeKeyObjectiveValue>> fronts, int crossOverPoolSize) {
 
         ArrayList<Chromosome> parentsPool = new ArrayList<>();
@@ -185,6 +240,12 @@ public class GeneticAlgorithm {
         return parentsPool;
     }
 
+    /**
+     * Method to do mutation
+     * @param poolList the set of individuals to do mutation
+     * @param mutationRate muation rate
+     * @param option not used
+     */
     public void doMutation(ArrayList<Chromosome> poolList, double mutationRate, int option) {
         Random rand = new Random();
         Collections.shuffle(poolList);
@@ -243,6 +304,12 @@ public class GeneticAlgorithm {
         }
         // System.out.println("do mutation succeed on "+countSuccedd+" chromosomes.");
     }
+
+    /**
+     * Perform route mutation of individual
+     * @param chromosome the individual
+     * @param toOptimize is this mutation goal to better the fitness avlue of individual ?
+     */
     private void mutationOfRoute(Chromosome chromosome, boolean toOptimize) {
         Gene[] genes = chromosome.getGenesList();
         for(int i = 0 ; i < genes.length ; i++) {
@@ -264,15 +331,31 @@ public class GeneticAlgorithm {
         }
         geneticService.checkChromosomeIsValid(chromosome);
      }
+
+    /**
+     * To reassign transports requests between routes of individual
+     * @param chromosome the individual
+     */
     private void mutationOfTransports(Chromosome chromosome) {
         geneticService.reassignTransportsBetweenRoutes(chromosome);
         geneticService.checkChromosomeIsValid(chromosome);
     }
+
+    /**
+     * To reassigns new depot and vehicles for routes of individual
+     * @param chromosome the individual
+     */
     private  void mutationOfDepots(Chromosome chromosome) {
         geneticService.reassignRoutesToBestDepots(chromosome);
         geneticService.checkChromosomeIsValid(chromosome);
      }
 
+    /**
+     * To perform uniform crossover over the parents list
+     * @param parents the chosen parent lists
+     * @param size the size of child population
+     * @return the child
+     */
     public ArrayList<Chromosome> crossOverStrategy1(ArrayList<Chromosome> parents, int size) {
         ArrayList<Chromosome> child = new ArrayList<>();
         for(int i = 0 ; i < size ; i= i+2) {
@@ -288,6 +371,11 @@ public class GeneticAlgorithm {
         return child;
     }
 
+    /**
+     * create the initial population
+     * @param size size of the initial population
+     * @return the initial population
+     */
     private ArrayList<Chromosome> createInitPopulation(int size) {
         Chromosome[] population = new Chromosome[size];
         int generatedInvidualCount = 0; // count generated individual

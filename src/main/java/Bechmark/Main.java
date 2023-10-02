@@ -6,8 +6,6 @@ import Model.ObjectivesPoint;
 import Model.Transport;
 import Model.Vehicle;
 import Service.HelperService;
-import gurobi.GRBException;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,20 @@ public class Main {
 
     private static final GeneticAlgorithm ga = new GeneticAlgorithm();
     private static final DAR3Index dar3Index = new DAR3Index();
-    public static void main(String[] args) throws GRBException, IOException {
+
+    /**
+     * Main method
+     * @param args consists of 7 command line arguments
+     *             1. address of distance matrix file
+     *             2. address of maut price matrix file
+     *             3. address of pickups and deliveries file
+     *             4. adress to save result file
+     *             5. time limit of each GA run in seconds
+     *             6. number of GA runs to be performed
+     *             7. time limit of Gurobi Solver, set to -1 to disable Gurobi Solver, or when Gurobi License is not available
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
         if (args.length!=7) {
             System.out.println("Please provide 7 command line arguments.");
             System.out.println("1 distance matrix in txt");
@@ -33,6 +44,13 @@ public class Main {
         int GAtimeLimit = Integer.parseInt(args[4]);
         int MILPtimeLimit = Integer.parseInt(args[6]);
         int gaRunsLimit = Integer.parseInt(args[5]);
+        if(GAtimeLimit<=0 || gaRunsLimit<=0 || MILPtimeLimit<-1) {
+            System.out.println("Arguments 3, 4, 5 have to follow the rules:");
+            System.out.println("Argument 3 muss be integer bigger than 0");
+            System.out.println("Argument 4 muss be integer bigger than 0");
+            System.out.println("Argument 5 muss be integer bigger than -2");
+            return;
+        }
         int[][] distanceMatrix = readCSVFile(args[0]);
         int[][] mautKmMatrix = readCSVFile(args[1]);
 
@@ -132,13 +150,21 @@ public class Main {
                 maxIndex = i;
             }
         }
-        System.out.println();
-        System.out.println("            __                       ");
-        System.out.println("|\\/| | |   |__)    _ |_  _   _ |_  _ ");
-        System.out.println("|  | | |__ |      _) |_ (_| |  |_ _) ");
-        System.out.println("                                     ");
+
+
         int limit = MILPtimeLimit;
-        ArrayList<ObjectivesPoint> paretoFrontMILP = dar3Index.solveDAR3IndexMultipleObjectives(distanceMatrix, transportsArray, vehiclesArray, mautKmMatrix, limit);
+        ArrayList<ObjectivesPoint> paretoFrontMILP;
+        if(limit!=-1) {
+            System.out.println();
+            System.out.println("            __                       ");
+            System.out.println("|\\/| | |   |__)    _ |_  _   _ |_  _ ");
+            System.out.println("|  | | |__ |      _) |_ (_| |  |_ _) ");
+            System.out.println("                                     ");
+            paretoFrontMILP = dar3Index.solveDAR3IndexMultipleObjectives(distanceMatrix, transportsArray, vehiclesArray, mautKmMatrix, limit);
+        }
+       else {
+           paretoFrontMILP = new ArrayList<>();
+        }
         mergeGAMILP.addAll(gaFronts.get(maxIndex));
         mergeGAMILP.addAll(paretoFrontMILP);
         ObjectivesPoint refGAMILP = h.caculateReferencePoint(mergeGAMILP);
@@ -172,19 +198,35 @@ public class Main {
 
         writeOutput(transportsDataAndVehicles, String.valueOf(GAtimeLimit), GAValues, gaFronts, refGA, IPVal, paretoFrontMILP, refGAMILP, String.valueOf(maxIndex + 1), gaV, coverage, saveResultAt, String.valueOf(MILPtimeLimit));
 
-        System.out.println("BENCHMARK OF FILE "  + transportsDataAndVehicles+".txt ENDED");
-
+        System.out.println("BENCHMARK OF FILE "  + transportsDataAndVehicles+" ENDED");
 
 
         long endTime = System.currentTimeMillis();
 
-
-        System.out.println("BENCHMARK ENDED");
         System.out.println("TAKES " + (endTime - starttime) / 1000 + " SECONDS");
+        boolean exit = false;
+        while(!exit) {
 
-
+        }
     }
 
+    /**
+     * Method to write benchmark's results to result.txt
+     * @param dataName name of pickup deliveries file
+     * @param timeLimit time limit of each GA run
+     * @param GAValues List contains Hypervolumes of Pareto fronts resulting from GA runs
+     * @param GAfronts List contains Pareto fronts resulting from GA runs
+     * @param ref1 reference point to calculate Hypervolumes of GAs
+     * @param IPValue Hypervolume of pareto front resulting from MILP
+     * @param IPfront Pareto front resulting from MILP
+     * @param ref2 reference point to calculate Hypervolumes of Pareto fronts resulting from MILP and GA
+     * @param bestGAIndex index of GA run gives best pareto front
+     * @param bestGAVal value of Hypervolume of best pareto front from GA runs
+     * @param coverage % Hypervolume of GA's pareto front over Hypervolume of MILP's pareto front
+     * @param resultFile name of result file
+     * @param milptime time limit of Gurobi solver
+     * @throws IOException
+     */
     private static void writeOutput(String dataName, String timeLimit, ArrayList<String> GAValues, ArrayList<ArrayList<ObjectivesPoint>> GAfronts, ObjectivesPoint ref1, String IPValue, ArrayList<ObjectivesPoint> IPfront, ObjectivesPoint ref2, String bestGAIndex, String bestGAVal, String coverage, String resultFile, String milptime) throws IOException {
 
         FileWriter fileWriter = new FileWriter(resultFile);
@@ -222,7 +264,11 @@ public class Main {
 
     }
 
-
+    /**
+     * Method to read CSV file into matrix of numbers containing information (distance matrix, maut price matrix, pickup and deliveries matrix)
+     * @param filePath adress of the file
+     * @return matrix
+     */
     private static int[][] readCSVFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             List<String[]> rows = new ArrayList<>();

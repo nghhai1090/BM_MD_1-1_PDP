@@ -3,7 +3,6 @@ package Model;
 public class PickUpDeliveryIndexValue {
     int pickUpIndex;
     int deliveryIndex;
-
     int pickUpIndexSwap;
     int deliveryIndexSwap;
     ObjectivesPoint value;

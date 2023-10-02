@@ -1,12 +1,26 @@
 package GeneticAlgo;
 
+/**
+ * Class containing chromosome information
+ */
 class Chromosome {
+    /**
+     * List of genes in chromosome
+     */
     private Gene[] genesList;
 
+    /**
+     * Constructor
+     * @param genesList List of genes
+     */
     public Chromosome(Gene[] genesList) {
         this.genesList = genesList;
     }
 
+    /**
+     * Method to calculate the max transport time of routes in this chromosome
+     * @return max transport time of routes
+     */
     public int getMaxTime() {
         int max = 0;
         for (int i = 0; i < genesList.length; i++) {
@@ -15,14 +29,10 @@ class Chromosome {
         return max;
     }
 
-    public int getTotalDeployCost() {
-        int sum = 0;
-        for (int i = 0; i < genesList.length; i++) {
-            sum = sum + genesList[i].getDeployCost();
-        }
-        return sum;
-    }
-
+    /**
+     * Method to calculate total maut price of routes in this chromosome
+     * @return total maut price
+     */
     public int getTotalMautKM() {
         int sum = 0;
         for (int i = 0; i < genesList.length; i++) {
@@ -31,14 +41,26 @@ class Chromosome {
         return sum;
     }
 
+    /**
+     * Method to retrieve genes list
+     * @return the genes list
+     */
     public Gene[] getGenesList() {
         return genesList;
     }
 
+    /**
+     * Method to set new genes List of Chromosome
+     * @param genesList the new genes list
+     */
     public void setGenesList(Gene[] genesList) {
         this.genesList = genesList;
     }
 
+    /**
+     * Method to clone this chromosome
+     * @return a clone of this chromosome
+     */
     public Chromosome clone() {
         Gene[] geneClone = new Gene[genesList.length];
         for(int i = 0 ; i < genesList.length ; i++) {
@@ -52,6 +74,10 @@ class Chromosome {
         return new Chromosome(geneClone);
     }
 
+    /**
+     * Method to output chromosome's information for debuging
+     * @return Chromosome's information
+     */
     public String toString() {
         String newLine = System.getProperty("line.separator");
         StringBuilder builder = new StringBuilder()
