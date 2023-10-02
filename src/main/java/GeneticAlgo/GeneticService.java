@@ -282,6 +282,12 @@ class GeneticService {
         return new Chromosome(genesOfChild.toArray(Gene[]::new));
     }
 
+    /**
+     * Perform recombination of 2 chromosomes for the crossover
+     * @param parent1 chromosome 1
+     * @param parent2 chromosome 2
+     * @return the child combined from gene materials of both parents
+     */
     public Chromosome recombinationOf2Chromosomes(Chromosome parent1, Chromosome parent2) {
         ArrayList<Integer> allTransportsIndices = new ArrayList<>();
         for (int i = 0; i < transportsArray.length; i++) {
@@ -634,6 +640,10 @@ class GeneticService {
         }
     }
 
+    /**
+     * This method reassign the best depot and new vehicle to routes of individual. The best depot is the one with the shortest distance
+     * @param chromosome the individual
+     */
     public void reassignRoutesToBestDepots(Chromosome chromosome) {
         ArrayList<Vehicle> vehicleList = new ArrayList<>();
         Collections.addAll(vehicleList, vehiclesArray);
@@ -674,6 +684,10 @@ class GeneticService {
         }
     }
 
+    /**
+     * This method reassign requests between routes of individual. the reassignment is random
+     * @param chromosome the individual
+     */
     public void reassignTransportsBetweenRoutes(Chromosome chromosome) {
         Random rand = new Random();
         if (chromosome.getGenesList().length > 1) {
@@ -712,6 +726,11 @@ class GeneticService {
         }
     }
 
+    /**
+     * This method remove a request from route (gene)
+     * @param choosenGene the route
+     * @param removedTransportIndex index of request to be removed
+     */
     private void removeTransportFromGene(Gene choosenGene, int removedTransportIndex) {
         Vehicle v = vehiclesArray[choosenGene.getVehicleIndex()];
         choosenGene.getTransportsIndicesList().remove(Integer.valueOf(removedTransportIndex));
@@ -721,6 +740,11 @@ class GeneticService {
         choosenGene.setTotalMautKm(caculateTotalMautKmOfThisRoute(choosenGene.getVehicleIndex(), route));
     }
 
+    /**
+     *
+     * @param gene
+     * @param moreTransportsAssignmentsIndices
+     */
     private void assignMoreTransportsToGene(Gene gene, ArrayList<Integer> moreTransportsAssignmentsIndices) {
         ArrayList<TransportNode> route = gene.getRoute();
         Vehicle vehicle = vehiclesArray[gene.getVehicleIndex()];
@@ -738,6 +762,15 @@ class GeneticService {
         gene.setTotalMautKm(caculateTotalMautKmOfThisRoute(gene.getVehicleIndex(), route));
     }
 
+    /**
+     *
+     * @param assignedTransportsIndex
+     * @param route
+     * @param vehicleCap
+     * @param vehicleLoadFactor
+     * @param vehicleSpeed
+     * @param depot
+     */
     private void assignThisTransportToRouteInBestPosition(int assignedTransportsIndex, ArrayList<TransportNode> route, int vehicleCap, int vehicleLoadFactor, int vehicleSpeed, int depot) {
         TransportNode pickup = new TransportNode(assignedTransportsIndex, true);
         TransportNode delivery = new TransportNode(assignedTransportsIndex, false);
@@ -798,6 +831,12 @@ class GeneticService {
         route.add(deliveryIndex, delivery);
     }
 
+    /**
+     *
+     * @param transportsIndicesList
+     * @param vehicleCap
+     * @return
+     */
     private ArrayList<Integer> assignRandomTransportsToThisVehicle(ArrayList<Integer> transportsIndicesList, int vehicleCap) {
         ArrayList<Integer> assignedIndicesList = new ArrayList<>();
         transportsIndicesList.forEach(index -> {
@@ -816,12 +855,29 @@ class GeneticService {
         return assignedIndicesList;
     }
 
+    /**
+     * check if route is valid
+     * @param depot route depot
+     * @param vehicleIndex route' vehicle index
+     * @param assignedTransportsIndices route's served transport requests
+     * @param route the route
+     * @return true if invalid, if valid then false
+     */
     private boolean transportsRouteIsInvalid(int depot, int vehicleIndex, ArrayList<Integer> assignedTransportsIndices, ArrayList<TransportNode> route) {
         ObjectivesPoint obj = caculateValueOfTransportsRoute(vehiclesArray[vehicleIndex].getCap(), vehiclesArray[vehicleIndex].getSpeed(), vehiclesArray[vehicleIndex].getLoadFactor(), depot, route);
         return !obj.isValid()
                 || !checkTransportRouteHasAllAssignments(route, assignedTransportsIndices);
     }
 
+    /**
+     * Method to calculate fitness value of a single transport route (gene)
+     * @param vehicleCap capacity of vehicle used in route
+     * @param vehicleSpeed speed of vehicle used in route
+     * @param vehicleLoadFactor not used
+     * @param depot depot of route
+     * @param route the route (gene)
+     * @return Objective point represents the fitness value of route
+     */
     private ObjectivesPoint caculateValueOfTransportsRoute(int vehicleCap, int vehicleSpeed, int vehicleLoadFactor, int depot, ArrayList<TransportNode> route) {
         int totalTime = 0;
         int totalMautKm = 0;
@@ -888,6 +944,12 @@ class GeneticService {
         return new ObjectivesPoint(totalMautKm, totalTime);
     }
 
+    /**
+     * Check if route visited all pickup- delivery nodes of the assigned requests
+     * @param route the route
+     * @param transportsIndices the indices of requests
+     * @return true if route visited all nodes, false else
+     */
     private boolean checkTransportRouteHasAllAssignments(ArrayList<TransportNode> route, ArrayList<Integer> transportsIndices) {
         ArrayList<Integer> toTest = new ArrayList<>(transportsIndices);
         ArrayList<Integer> toTest2 = new ArrayList<>(transportsIndices);
@@ -904,6 +966,15 @@ class GeneticService {
         return toTest.size() == 0;
     }
 
+    /**
+     * method to check if individual is valid.
+     * Individual is valid when its routes are valid, when
+     * + it has no vehicle which is used in more than 1 route
+     * + all requests is correct assigne to route of vehicle, considering vehicle's capacity
+     * + no double assignment of the same request
+     * + all request are assigned
+     * @param chromosome
+     */
     public void checkChromosomeIsValid(Chromosome chromosome) {
         ArrayList<Integer> transports = new ArrayList<>();
         HashSet<Integer> vehicles = new HashSet<>();
@@ -943,6 +1014,12 @@ class GeneticService {
         }
     }
 
+    /**
+     * Method to calculate total time of route
+     * @param vehicleIndex index of used vehicle
+     * @param route the route
+     * @return total time
+     */
     public int caculateTotalTimeOfThisRoute(int vehicleIndex, ArrayList<TransportNode> route) {
         int totalTime = 0;
         int previous = -1;
@@ -1001,6 +1078,12 @@ class GeneticService {
 
     }
 
+    /**
+     * method to calculate maut price of route
+     * @param vehicleIndex index of used vehicle
+     * @param route the route
+     * @return maut price
+     */
     public int caculateTotalMautKmOfThisRoute(int vehicleIndex, ArrayList<TransportNode> route) {
         int totalMautKm = 0;
         int previous = -1;
