@@ -1,11 +1,22 @@
 READ ME:
-+ to run : open terminal window -> navigate to address of this file -> type: java -jar BM_MD_1-1_PDP.jar distanceMatrix.txt mautMatrix.txt [name of .txt file contains transports and vehicles info] [name of result file in txt] [time limit of each GA run] [number of GA runs to be performed] [time limit of MILP, set to -1 for disable MILP when gurobi solver not available]
++ To run the benchmark : 
+	1. open terminal window 
+	2. navigate to the directory where this file is located
+	3.  type: java -jar BM_MD_1-1_PDP.jar distanceMatrix.txt mautMatrix.txt [name of .txt file contains transports and vehicles info] [name of result file in txt] [time limit of each GA run] [number of GA runs to be performed] [time limit of MILP, set to -1 for disable MILP when gurobi solver not available]
 
-+ file contains transports and vehicles info: 
-first row number of transports,number of vehicles
-next number of transports rows, at each row: from,to,amount,active time at from, active time at to
-next number of vehicles rows, at each row: depot of vehicle,capacity of vehicle,speed of vehicle
++ File Structure for Transport and Vehicle Information:: 
+	* The first row should contain the number of transports and the number of vehicles.
+	* The next rows equal to the number of transports should contain the following information for each transport: 
+		- From location
+		- To location
+		- Amount of transport
+		- Active time at the from location
+		- Active time at the to location
+	* The subsequent rows equal to the number of vehicles should specify the details for each vehicle:
+		- Depot location of the vehicle
+		- Capacity of the vehicle
+		- Speed of the vehicle
 
-example see file t4v5.txt
+	* Example: see file t4v5.txt
 
-example run -> open run.bat
++ For example run -> open run.bat
